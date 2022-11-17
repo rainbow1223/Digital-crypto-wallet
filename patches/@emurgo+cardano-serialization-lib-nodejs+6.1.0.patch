@@ -1,0 +1,38 @@
+diff --git a/node_modules/@emurgo/cardano-serialization-lib-nodejs/cardano_serialization_lib.js b/node_modules/@emurgo/cardano-serialization-lib-nodejs/cardano_serialization_lib.js
+index aee8d47..e94894e 100644
+--- a/node_modules/@emurgo/cardano-serialization-lib-nodejs/cardano_serialization_lib.js
++++ b/node_modules/@emurgo/cardano-serialization-lib-nodejs/cardano_serialization_lib.js
+@@ -1,7 +1,7 @@
+ let imports = {};
+ imports['__wbindgen_placeholder__'] = module.exports;
+ let wasm;
+-const { TextDecoder } = require(String.raw`util`);
++// const { TextDecoder } = require(String.raw`util`);
+ 
+ const heap = new Array(32).fill(undefined);
+ 
+@@ -8798,11 +8798,21 @@ module.exports.__wbindgen_rethrow = function(arg0) {
+     throw takeObject(arg0);
+ };
+ 
+-const path = require('path').join(__dirname, 'cardano_serialization_lib_bg.wasm');
+-const bytes = require('fs').readFileSync(path);
++// const path = require('path').join(__dirname, 'cardano_serialization_lib_bg.wasm');
++// const bytes = require('fs').readFileSync(path);
++
++// const wasmModule = new WebAssembly.Module(bytes);
++// const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
++// wasm = wasmInstance.exports;
++// module.exports.__wasm = wasm;
+ 
++const path = require('path').join(__dirname, 'cardano_serialization_lib_bg.wasm');
++fetch(path).then(response =>
++  response.arrayBuffer()
++).then(bytes => {
+ const wasmModule = new WebAssembly.Module(bytes);
+ const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
+ wasm = wasmInstance.exports;
+-module.exports.__wasm = wasm;
++module.exports.wasm = wasm;
++});
+ 
